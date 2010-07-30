@@ -25,7 +25,11 @@ class Readernaut_Widget extends WP_Widget {
 		extract($args);
 		$user = $instance['user'];
 		$category = $instance['category'];
-		$title = 'Readernaut: ' . ucwords($category);
+		$title = $instance['title'];
+
+		if (strlen($title) == 0) {
+			$title = 'Readernaut: ' . ucwords($category);
+		}
 
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
@@ -49,12 +53,13 @@ class Readernaut_Widget extends WP_Widget {
 
 		$instance['user'] = strip_tags($new_instance['user']);
 		$instance['category'] = $new_instance['category'];
+		$instance['title'] = $new_instance['title'];
 
 		return $instance;
 	}
 
 	function form($instance) {
-		$defaults = array('user' => 'trey', 'category' => 'reading');
+		$defaults = array('user' => 'trey', 'category' => 'reading', 'title' => '');
 		$instance = wp_parse_args((array) $instance, $defaults);
 		?>
 		<p>
@@ -72,6 +77,10 @@ class Readernaut_Widget extends WP_Widget {
 				<option value="abandoned" <?php if('abandoned' == $instance['category']) echo 'selected="selected"'; ?>>Abandoned</option>
 				<option value="all" <?php if('all' == $instance['category']) echo 'selected="selected"'; ?>>All</option>
 			</select>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('title'); ?>">Title (optional):</label>
+			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" />
 		</p>
 		<?php
 	}
