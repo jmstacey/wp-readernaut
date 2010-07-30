@@ -20,13 +20,13 @@ class Readernaut_Widget extends WP_Widget {
 		$control_ops = array('id_base' => 'readernaut-widget');
 		$this->WP_Widget('readernaut-widget', 'Readernaut', $widget_ops, $control_ops);
 	}
-	
+
 	function widget($args, $instance) {
 		extract($args);
 		$user = $instance['user'];
 		$category = $instance['category'];
 		$title = 'Readernaut: ' . ucwords($category);
-		
+
 		echo $before_widget;
 		echo $before_title . $title . $after_title;
 
@@ -43,16 +43,16 @@ class Readernaut_Widget extends WP_Widget {
 
 		echo $after_widget;
 	}
-	
+
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
-		
+
 		$instance['user'] = strip_tags($new_instance['user']);
 		$instance['category'] = $new_instance['category'];
-		
+
 		return $instance;
 	}
-	
+
 	function form($instance) {
 		$defaults = array('user' => 'trey', 'category' => 'reading');
 		$instance = wp_parse_args((array) $instance, $defaults);
